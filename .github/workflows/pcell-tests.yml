@@ -25,7 +25,7 @@ jobs:
       - name: Run docker container from image
         run: |
           echo --- Building docker container ---
-          docker run -it --name test -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/siepic/pdk-generator:latest
+          docker run --name test -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/siepic/pdk-generator:latest
           xhost +local:docker
           docker start test
           echo --- Running docker container ---
