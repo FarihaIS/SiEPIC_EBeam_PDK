@@ -8,6 +8,7 @@ on:
 jobs:
   pcell-test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
@@ -21,6 +22,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Run docker container from image
+        run: |
+          echo --- Building docker container ---
+          sudo docker run -it --name test -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/siepic/pdk-generator:latest
+          xhost +local:docker
+          sudo docker start test
+          echo --- Running docker container ---
+          sudo docker run test
 
       - name: Run the EBeam_Lib_PCellTests script
         run: klayout -e -r ../../klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py
