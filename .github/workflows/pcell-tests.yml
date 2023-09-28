@@ -31,5 +31,5 @@ jobs:
           echo --- Running docker container ---
           docker run test
 
-      - name: Run the EBeam_Lib_PCellTests script
+      - name: Run the EBeam_Lib_PCellTests script with KLayout
         run: klayout -e -r ../../klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py
