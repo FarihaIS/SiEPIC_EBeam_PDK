@@ -22,8 +22,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
 
+      - name: Login to GitHub Container Registry
+        run: |
+           echo --- Logging in to ghcr.io ---
+           echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u farihais --password-stdin
+
       - name: Pull docker image 
-        run: docker pull ghcr.io/farihais/siepic_ebeam_pdk/gha_klayout:latest
+        run: |
+          echo --- Pulling docker image ---
+          docker pull ghcr.io/farihais/siepic_ebeam_pdk/gha_klayout:latest
 
       - name: Run docker container from image
         run: |
