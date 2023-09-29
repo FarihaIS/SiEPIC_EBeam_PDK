@@ -36,7 +36,6 @@ jobs:
         run: |
           echo --- Building docker container ---
           docker run --name test -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/farihais/siepic_ebeam_pdk/gha_klayout:latest
-          bash -c 'xhost +local:docker'
           docker start test
           echo --- Running docker container ---
           docker run test
