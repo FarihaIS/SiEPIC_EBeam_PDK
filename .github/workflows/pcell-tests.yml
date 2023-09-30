@@ -34,8 +34,7 @@ jobs:
 
       - name: Run docker container from image
         run: |
-          echo --- Building docker container ---
-          docker run -it --name test -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/farihais/gha_klayout:latest
-
-      - name: Run the EBeam_Lib_PCellTests script with KLayout
-        run: bash -c 'klayout -e -r ../../klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py'
+          echo --- Running docker container ---
+          docker run -itd --name test -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/farihais/gha_klayout:latest
+          echo --- Running EBeam_Lib_PcellTests.py script with KLayout
+          docker exec test klayout -e -r EBeam_Lib_PCellTests.py
