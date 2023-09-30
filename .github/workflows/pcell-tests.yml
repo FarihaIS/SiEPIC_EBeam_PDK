@@ -30,7 +30,7 @@ jobs:
       - name: Pull docker image 
         run: |
           echo --- Pulling docker image ---
-          docker pull ghcr.io/farihais/siepic_ebeam_pdk/gha_klayout:latest
+          docker pull ghcr.io/farihais/gha_klayout:latest
 
       - name: Run docker container from image
         run: |
