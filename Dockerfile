@@ -2,7 +2,7 @@ FROM quay.io/centos/centos:stream8
 
 # Update the system and install necessary tools
 RUN dnf -y update && \
-    dnf -y install wget bzip2 unzip git mesa-dri-drivers xorg-x11-utils xorg-x11-xauth xorg-x11-server-utils
+    dnf -y install wget bzip2 unzip git mesa-dri-drivers
 
 # Install newest version of Anaconda
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh -O ~/anaconda.sh && \

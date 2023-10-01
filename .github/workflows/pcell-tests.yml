@@ -32,6 +32,11 @@ jobs:
           echo --- Pulling docker image ---
           docker pull ghcr.io/farihais/gha_klayout:latest
 
+      - name: Add user to xhost access control list
+        run: |
+          echo --- Adding user to xhost list ---
+          xhost +local:docker
+
       - name: Run docker container from image
         run: |
           echo --- Running docker container ---
