@@ -36,5 +36,7 @@ jobs:
         run: |
           echo --- Running docker container ---
           docker run -itd --name test -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/shm:/dev/shm ghcr.io/farihais/gha_klayout:latest
+
+      - name: Run KLayout Python script inside container 
           echo --- Running EBeam_Lib_PcellTests.py script with KLayout
           docker exec test klayout -e -r EBeam_Lib_PCellTests.py
