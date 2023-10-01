@@ -32,11 +32,6 @@ jobs:
           echo --- Pulling docker image ---
           docker pull ghcr.io/farihais/gha_klayout:latest
 
-      - name: Add user to xhost access control list
-        run: |
-          echo --- Adding user to xhost list ---
-          xhost +local:docker
-
       - name: Run docker container from image
         run: |
           echo --- Running docker container ---
@@ -45,4 +40,4 @@ jobs:
       - name: Run KLayout Python script inside container 
         run: |
           echo --- Running EBeam_Lib_PcellTests.py script with KLayout
-          docker exec test klayout -e -r EBeam_Lib_PCellTests.py
+          docker exec test klayout -z -r EBeam_Lib_PCellTests.py
