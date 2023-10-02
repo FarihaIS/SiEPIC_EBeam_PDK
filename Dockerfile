@@ -17,14 +17,14 @@ RUN wget https://download.jetbrains.com/python/pycharm-community-2023.1.2.tar.gz
     rm ~/pycharm.tar.gz
 
 # Install the newest version of KLayout
-RUN wget https://www.klayout.org/downloads/CentOS_8/klayout-0.28.9-0.x86_64.rpm -O ~/klayout.rpm && \
+RUN wget https://www.klayout.org/downloads/CentOS_8/klayout-0.28.12-0.x86_64.rpm -O ~/klayout.rpm && \
     yum -y localinstall ~/klayout.rpm && \
     rm ~/klayout.rpm
 
 # Clone SiEPIC-Tools and SiEPIC_EBeam_PDK 
 RUN mkdir -p /root/.klayout/salt && \
     cd /root/.klayout/salt && \
-    git clone https://github.com/FarihaIS/SiEPIC-Tools.git && \
+    git clone https://github.com/SiEPIC/SiEPIC-Tools.git && \
     git clone https://github.com/SiEPIC/SiEPIC_EBeam_PDK.git
 
 # Set the working directory
