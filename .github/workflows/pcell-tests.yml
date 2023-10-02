@@ -22,7 +22,7 @@ jobs:
         run: python -m pip install --upgrade pip
 
       - name: Verify Qt dependencies
-        run: sudo apt-get install libqt5gui5 libqt5widgets5 libqt5dbus5 libqt5network5 libqt5core5 libgl1-mesa-glx
+        run: sudo apt-get install libqt5gui5
 
       - name: Export environment variable to xcb
         run: export QT_QPA_PLATFORM=xcb
