@@ -24,7 +24,7 @@ jobs:
       - name: Install Dependencies
         run: |
                 sudo apt-get update
-                sudo apt-get install -y libqt5x11extras5 qt5-qtx11extras
+                sudo apt-get install -y libqt5x11extras5
                 qmake -v
 
       - name: Login to GitHub Container Registry
