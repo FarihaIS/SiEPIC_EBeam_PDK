@@ -40,6 +40,7 @@ WORKDIR /home
 
 # Set PATH
 ENV PATH /opt/conda/bin:$PATH
+ENV DISPLAY=:0
 
 # Copy files to working directory
 COPY klayout/EBeam/pymacros/pcells_EBeam /home/pcells_EBeam
