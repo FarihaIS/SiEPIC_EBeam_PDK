@@ -1,8 +1,14 @@
 FROM quay.io/centos/centos:stream8
 
+# Clean the cache and ensure the package metadata is up to date
+RUN dnf clean all & dnf makecache
+
 # Update the system and install necessary tools
 RUN dnf -y update && \
     dnf -y install wget bzip2 unzip git mesa-dri-drivers
+
+# Install Qt libraries and related packages
+RUN dnf -y install libxcb libX11-xcb xcb-util-image xcb-util-wm
 
 # Install newest version of Anaconda
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh -O ~/anaconda.sh && \
