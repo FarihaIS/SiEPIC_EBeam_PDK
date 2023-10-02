@@ -21,12 +21,6 @@ jobs:
       - name: Install Python packages
         run: python -m pip install --upgrade pip
 
-      - name: Update opencv packages
-        run: |
-                sudo apt-get install libxcb-xinerama0
-                pip uninstall opencv-python
-                pip install opencv-python-headless
-
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u farihais --password-stdin
 
@@ -35,8 +29,7 @@ jobs:
 
       - name: Run docker container from image
         run: |
-                echo $DISPLAY
-                docker run -itd --name test -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/shm:/dev/shm -e QT_QPA_PLATFORM=xcb ghcr.io/farihais/gha_klayout:latest
+                docker run -itd --name test ghcr.io/farihais/gha_klayout:latest
 
       - name: Run KLayout Python script inside container 
         run: docker exec test klayout -z -r EBeam_Lib_PCellTests.py
