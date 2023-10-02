@@ -36,5 +36,4 @@ jobs:
         run: docker run -itd --name test -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /dev/shm:/dev/shm -e QT_QPA_PLATFORM=xcb ghcr.io/farihais/gha_klayout:latest
 
       - name: Run KLayout Python script inside container 
-        shell: bash
-        run: docker exec -it test bash
+        run: docker exec test klayout -e -r EBeam_Lib_PCellTests.py
