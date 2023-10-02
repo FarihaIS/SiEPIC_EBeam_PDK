@@ -32,4 +32,4 @@ jobs:
 
       - name: Run KLayout Python script inside container 
         shell: bash
-        run: docker exec -it test
+        run: docker exec -it test bash
