@@ -13,8 +13,14 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
+      - name: Run xhost command
+        run: xhost +local:docker
+
+      - name: Pull docker image
+        run: sudo docker pull ghcr.io/farihais/gha_lumerical:latest
+
       - name: Run docker container from image
-        run: sudo docker run -itd --name test_lumerical -e DISPLAY=SDISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/siepic/pdk-generator:latest
+        run: sudo docker run -itd --name test_lumerical -e DISPLAY=SDISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/farihais/gha_lumerical:latest
 
       - name: Run KLayout Python script inside container 
         run: sudo docker exec test_lumerical klayout -z -r EBeam_Lib_PCellTests.py
