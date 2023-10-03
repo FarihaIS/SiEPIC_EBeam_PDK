@@ -1,4 +1,4 @@
-name: PCell Tests
+name: Lumerical PCell Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   pcell-test:
-    runs-on: self-hosted 
+    runs-on: self-hosted
 
     steps:
       - name: Checkout the code
