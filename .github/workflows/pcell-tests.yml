@@ -25,7 +25,7 @@ jobs:
         run: docker pull ghcr.io/farihais/gha_klayout:latest
 
       - name: Run docker container from image
-        run: docker run -itd --name test ghcr.io/farihais/gha_klayout:latest
+        run: docker run -itd --name test_klayout -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/farihais/gha_klayout:latest
 
       - name: Run KLayout Python script inside container 
-        run: docker exec test klayout -z -r EBeam_Lib_PCellTests.py
+        run: docker exec test_klayout klayout -z -r EBeam_Lib_PCellTests.py
