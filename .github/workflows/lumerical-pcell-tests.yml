@@ -1,0 +1,20 @@
+name: PCell Tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  pcell-test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Run docker container from image
+        run: docker run -itd --name test_lumerical -e DISPLAY=SDISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/siepic/pdk-generator:latest
+
+      - name: Run KLayout Python script inside container 
+        run: docker exec test klayout -z -r EBeam_Lib_PCellTests.py
