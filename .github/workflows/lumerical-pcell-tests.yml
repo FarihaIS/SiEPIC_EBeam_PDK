@@ -17,4 +17,4 @@ jobs:
         run: sudo docker run -itd --name test_lumerical -e DISPLAY=SDISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/siepic/pdk-generator:latest
 
       - name: Run KLayout Python script inside container 
-        run: sudo docker exec test klayout -z -r EBeam_Lib_PCellTests.py
+        run: sudo docker exec test_lumerical klayout -z -r EBeam_Lib_PCellTests.py
