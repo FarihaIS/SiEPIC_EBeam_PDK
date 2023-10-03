@@ -16,6 +16,9 @@ jobs:
       - name: Run xhost command
         run: xhost +local:docker
 
+      - name: Login to GitHub Container Registry
+        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u farihais --password-stdin
+
       - name: Pull docker image
         run: sudo docker pull ghcr.io/farihais/gha_lumerical:latest
 
