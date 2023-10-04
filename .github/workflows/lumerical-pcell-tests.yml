@@ -16,7 +16,7 @@ jobs:
       - name: Run xhost command
         run: xhost +local:docker
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GitHub Container Registry 
         run: echo ${{ secrets.CR_PAT }} | sudo docker login ghcr.io -u farihais --password-stdin
 
       - name: Pull docker image
