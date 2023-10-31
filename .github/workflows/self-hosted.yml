@@ -3,7 +3,10 @@ name: Lumerical PCell Tests
 on:
   push:
     branches:
-      - master
+      - main
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   pcell-test:
@@ -17,13 +20,13 @@ jobs:
         run: xhost +local:docker
 
       - name: Login to GitHub Container Registry 
-        run: echo ${{ secrets.CR_PAT }} | sudo docker login ghcr.io -u farihais --password-stdin
+        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
 
-      - name: Pull docker image
-        run: sudo docker pull ghcr.io/farihais/gha_lumerical:latest
+      - name: Pull fotonika image
+        run: podman pull ghcr.io/siepic/fotonika-env:00.01.00
 
-      - name: Run docker container from image
-        run: sudo docker run -itd --name test_lumerical -e DISPLAY=unix$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix ghcr.io/farihais/gha_lumerical:latest
+      - name: Run podman container from image
+        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/farihais/gha_lumerical:latest
 
       - name: Run KLayout Python script inside container 
-        run: sudo docker exec test_lumerical klayout -z -r EBeam_Lib_PCellTests.py
+        run: podman exec self_hosted_test klayout -z -r EBeam_Lib_PCellTests.py
