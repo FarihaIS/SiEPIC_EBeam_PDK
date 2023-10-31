@@ -1,4 +1,4 @@
-name: PCell Tests
+name: GitHub-Hosted  PCellTests
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Lumerical PCell Tests
+name: Self-Hosted PCellTests
 
 on:
   push:
