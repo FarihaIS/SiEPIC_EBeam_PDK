@@ -28,5 +28,14 @@ jobs:
       - name: Run podman container from image
         run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/farihais/gha_lumerical:latest
 
+      - name: Copy pcells_EBeam folder, EBeam_Lib_PCellTests.py, and custom_exceptions.py to podman container
+        run: |
+                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/pcells_EBeam self_hosted_test:/home/pcells_EBeam
+                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py self_hosted_test:/home
+                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/custom_exceptions.py self_hosted_test:/home
+
       - name: Run KLayout Python script inside container 
         run: podman exec self_hosted_test klayout -z -r EBeam_Lib_PCellTests.py
+
+      - name: Stop podman container and remove it
+        run: podman stop self_hosted_test && podman rm self_hosted_test
