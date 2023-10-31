@@ -17,20 +17,20 @@ jobs:
       - name: Run xhost command
         run: xhost +local:docker
 
-      - name: Login to GitHub Container Registry 
-        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
-
-      - name: Pull fotonika image
-        run: podman pull ghcr.io/siepic/fotonika-env:0.01.00
-
+        #      - name: Login to GitHub Container Registry 
+        #        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
+        #
+        #      - name: Pull fotonika image
+        #        run: podman pull ghcr.io/siepic/fotonika-env:0.01.00
+        #
       - name: Run podman container from image
-        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/farihais/gha_lumerical:latest
+        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00
 
       - name: Copy pcells_EBeam folder, EBeam_Lib_PCellTests.py, and custom_exceptions.py to podman container
         run: |
                 podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/pcells_EBeam self_hosted_test:/home/pcells_EBeam
-                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py self_hosted_test:/home
-                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/custom_exceptions.py self_hosted_test:/home
+                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py self_hosted_test:/home/EBeam_Lib_PCellTests.py
+                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/custom_exceptions.py self_hosted_test:/home/custom_exceptions.py
 
       - name: Run KLayout Python script inside container 
         run: podman exec self_hosted_test klayout -z -r EBeam_Lib_PCellTests.py
