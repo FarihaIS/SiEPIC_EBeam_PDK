@@ -35,3 +35,7 @@ jobs:
       - name: Run KLayout Python script inside container 
         run: podman exec self_hosted_test klayout -z -r EBeam_Lib_PCellTests.py
 
+      - name: Stop the container and remove it
+        run: |
+                podman stop self_hosted_test
+                podman rm self_hosted_test
