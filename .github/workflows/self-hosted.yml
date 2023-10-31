@@ -33,7 +33,7 @@ jobs:
                 podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/custom_exceptions.py self_hosted_test:/home/custom_exceptions.py
 
       - name: Run KLayout Python script inside container 
-        run: podman exec self_hosted_test klayout -z -r EBeam_Lib_PCellTests.py
+        run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r EBeam_Lib_PCellTests.py
 
       - name: Stop the container and remove it 
         run: |
