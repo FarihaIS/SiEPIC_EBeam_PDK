@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  pcell-test:
+  pcell-tests:
     runs-on: self-hosted 
 
     steps:
