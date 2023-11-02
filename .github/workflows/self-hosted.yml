@@ -39,7 +39,7 @@ jobs:
                 podman exec SCRIPT_EXIT_CODE=$?
                 echo "Exit code: $SCRIPT_EXIT_CODE"
 
-      - name: Stop the container and remove it
+      - name: Stop the container and remove it and fail the job if exit code is non-zero
         run: |
                 podman stop self_hosted_test
                 podman rm self_hosted_test
