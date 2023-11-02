@@ -9,7 +9,7 @@ import importlib
 
 # Equivalent to from custom_exceptions_path import *
 currenty_directory = os.path.dirname(os.path.abspath(__file__))
-custom_exceptions_path = os.path.join(script_directory, 'custom_exceptions.py')
+custom_exceptions_path = os.path.join(current_directory, 'custom_exceptions.py')
 exec(open(custom_exceptions_path).read())
 
 """
