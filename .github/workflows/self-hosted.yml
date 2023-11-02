@@ -26,11 +26,12 @@ jobs:
       - name: Run podman container from image
         run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00
 
-      - name: Copy pcells_EBeam folder, EBeam_Lib_PCellTests.py, and custom_exceptions.py to podman container
+      - name: Copy pymacros folder to podman container
         run: |
-                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/pcells_EBeam self_hosted_test:/home/pcells_EBeam
-                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py self_hosted_test:/home/EBeam_Lib_PCellTests.py
-                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/custom_exceptions.py self_hosted_test:/home/custom_exceptions.py
+                #                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/pcells_EBeam self_hosted_test:/home/pcells_EBeam
+                #                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/EBeam_Lib_PCellTests.py self_hosted_test:/home/EBeam_Lib_PCellTests.py
+                #                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros/custom_exceptions.py self_hosted_test:/home/custom_exceptions.py
+                podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
 
       - name: Run KLayout Python script inside container 
         run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r EBeam_Lib_PCellTests.py
