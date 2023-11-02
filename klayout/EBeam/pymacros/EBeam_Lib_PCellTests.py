@@ -7,7 +7,7 @@ import pathlib
 #import pcells_EBeam ### folder name ###
 import importlib
 
-from custom_exceptions import *
+#from custom_exceptions import *
 
 """
 Python script to test that all Pcells are properly registered in their respective library and will display polygons when placed on a new layout.
