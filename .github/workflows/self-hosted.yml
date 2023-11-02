@@ -41,7 +41,7 @@ jobs:
         run: |
                 EXIT_CODE=$(podman exec self_hosted_test /bin/sh -c "echo $?")
                 echo "Exit code: $EXIT_CODE"
-                echo "SCRIPT_EXIT_CODE=$EXIT_CODE" >> $GITHUB_ENV
+                echo "::set-env name=SCRIPT_EXIT_CODE::$EXIT_CODE"
 
       - name: Stop the container and remove it and fail the job if exit code is non-zero
         run: |
