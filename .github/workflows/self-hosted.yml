@@ -34,10 +34,16 @@ jobs:
                 podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
 
       - name: Run KLayout Python script inside container 
-        run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py
-        continue-on-error: false
+        run: |
+                podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py
+                SCRIPT_EXIT_CODE=$?
 
       - name: Stop the container and remove it
         run: |
                 podman stop self_hosted_test
                 podman rm self_hosted_test
+                
+                if [ $SCRIPT_EXIT_CODE -ne 0 ]; then
+                        echo "Script exited with non-zero exit code"
+                        exit 1
+                fi
