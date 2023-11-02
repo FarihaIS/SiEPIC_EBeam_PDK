@@ -36,7 +36,7 @@ jobs:
       - name: Run KLayout Python script inside container 
         run: |
                 podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py
-                SCRIPT_EXIT_CODE=$?
+                podman exec SCRIPT_EXIT_CODE=$?
                 echo "Exit code: $SCRIPT_EXIT_CODE"
 
       - name: Stop the container and remove it
