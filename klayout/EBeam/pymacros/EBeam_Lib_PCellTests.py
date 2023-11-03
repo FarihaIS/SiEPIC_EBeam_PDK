@@ -2,43 +2,14 @@ import pya
 from pya import *
 import os
 import pathlib
-import sys
 
 #import pcells_EBeam ### folder name ###
 import importlib
 
 # Equivalent to from custom_exceptions_path import *
-# current_directory = os.path.dirname(os.path.abspath(__file__))
-# custom_exceptions_path = os.path.join(current_directory, 'custom_exceptions.py')
-# exec(open(custom_exceptions_path).read())
-# from .custom_exceptions import *
-
-class PCellRegistrationError(Exception):
-    """
-    Raised when a PCell is not properly registered in a library. This occurs when
-    a PCell's .py file is in a library's folder but has not been registered in the library layout
-    """
-    def __init__(self, pcell, library):
-        self.pcell = pcell
-        self.library = library
-        super().__init__("Pcell {} could not be registered in library {}".format(pcell, library))
-
-class PCellInstantiationError(Exception):
-    """
-    Raised when a PCell is empty (not containing instances nor any shapes) when instantiated in a
-    new layout
-    """
-    def __init__(self, pcell, library):
-        self.pcell = pcell
-        super().__init__("Pcell {} from library {} is empty when instantiated in a new layout".format(pcell, library))
-
-class LibraryNotRegistered(Exception):
-    """
-    Raised when a library is not registered in Klayout
-    """
-    def __init__(self, library):
-        self.library = library
-        super().__init__("Library {} is not registered in KLayout".format(library))
+current_directory = os.path.dirname(os.path.abspath(__file__))
+custom_exceptions_path = os.path.join(current_directory, 'custom_exceptions.py')
+exec(open(custom_exceptions_path).read())
 
 """
 Python script to test that all Pcells are properly registered in their respective library and will display polygons when placed on a new layout.
@@ -55,7 +26,6 @@ by Jasmina Brar
 2023/10/30, Jasmina Brar
     - raise exceptions when errors occur and exits under these conditions
     - tests successful pcell registration in all libraries 
-
 
 """
 
@@ -84,7 +54,7 @@ for i in range(len(library_folders)):
         
     except LibraryNotRegistered as e:
         print("Caught {}: {}".format(type(e).__name__, str(e)))
-        sys.exit(1)
+        pya.Application.instance().exit(1)
 
     # loop through all pcells from this library's folder
     for f in files:
@@ -115,8 +85,7 @@ for i in range(len(library_folders)):
         
         except (PCellRegistrationError, PCellInstantiationError) as e:
             print("Caught {}: {}".format(type(e).__name__, str(e)))
-            sys.exit(1)
-
+            pya.Application.instance().exit(1)
 
     print("Complete. All pcells from {} folder were successfully registered in {} library".format(library_folders[i], library_names[i]))
 
