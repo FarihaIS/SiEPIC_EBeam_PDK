@@ -8,9 +8,10 @@ import sys
 import importlib
 
 # Equivalent to from custom_exceptions_path import *
-current_directory = os.path.dirname(os.path.abspath(__file__))
-custom_exceptions_path = os.path.join(current_directory, 'custom_exceptions.py')
-exec(open(custom_exceptions_path).read())
+# current_directory = os.path.dirname(os.path.abspath(__file__))
+# custom_exceptions_path = os.path.join(current_directory, 'custom_exceptions.py')
+# exec(open(custom_exceptions_path).read())
+from custom_exceptions import *
 
 """
 Python script to test that all Pcells are properly registered in their respective library and will display polygons when placed on a new layout.
