@@ -51,4 +51,4 @@ jobs:
                 if [ $SCRIPT_EXIT_CODE -ne 0 ]; then
                         echo "Script exited with non-zero exit code"
                         exit 1
-                fi
+                fi 
