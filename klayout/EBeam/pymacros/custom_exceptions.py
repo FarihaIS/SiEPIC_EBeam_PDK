@@ -23,4 +23,4 @@ class LibraryNotRegistered(Exception):
     """
     def __init__(self, library):
         self.library = library
-        super().__init__("Library {} is not registered in Klayout")
+        super().__init__("Library {} is not registered in KLayout".format(library))
