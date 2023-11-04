@@ -17,11 +17,11 @@ jobs:
       - name: Run xhost command
         run: xhost +local:docker
 
-        #      - name: Login to GitHub Container Registry 
-        #        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
-        #
-        #      - name: Pull fotonika image
-        #        run: podman pull ghcr.io/siepic/fotonika-env:0.01.00
+      - name: Login to GitHub Container Registry 
+        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
+      
+      - name: Pull fotonika image
+        run: podman pull ghcr.io/siepic/fotonika-env:0.01.00
 
       - name: Run podman container from image
         run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00
@@ -35,16 +35,15 @@ jobs:
       - name: Capture exit code from container
         run: |
                 EXIT_CODE=$(podman exec self_hosted_test /bin/sh -c "echo $?")
-                echo "Exit code: $EXIT_CODE"
-                echo "SCRIPT_EXIT_CODE=$EXIT_CODE" >> $GITHUB_ENV
-                exit 0
+                echo "KLAYOUT_EXIT_CODE=$KLAYOUT_EXIT_CODE" >> $GITHUB_ENV
+        continue-on-error: true
 
       - name: Stop the container and remove it and fail the job if exit code is non-zero
         run: |
                 podman stop self_hosted_test
                 podman rm self_hosted_test
                 
-                if [ $SCRIPT_EXIT_CODE -ne 0 ]; then
-                        echo "Script exited with non-zero exit code"
+                if [ $KLAYOUT_EXIT_CODE -ne 0 ]; then
+                        echo "KLayout exited with non-zero exit code"
                         exit 1
                 fi 
