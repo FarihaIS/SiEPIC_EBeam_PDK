@@ -34,7 +34,7 @@ jobs:
 
       - name: Capture exit code from container
         run: |
-                EXIT_CODE=$(podman exec self_hosted_test /bin/sh -c "echo $?")
+                KLAYOUT_EXIT_CODE=$(podman exec self_hosted_test /bin/sh -c "echo $?")
                 echo "KLAYOUT_EXIT_CODE=$KLAYOUT_EXIT_CODE" >> $GITHUB_ENV
         continue-on-error: true
 
