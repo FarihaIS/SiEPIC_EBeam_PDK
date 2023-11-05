@@ -34,15 +34,18 @@ jobs:
         continue-on-error: true
 
       - name: Capture exit code from container
+        id: exit-code
         run: |
-                KLAYOUT_EXIT_CODE=$(podman exec self_hosted_test /bin/sh -c "echo $?")
+                KLAYOUT_EXIT_CODE=$(echo $?)
                 echo "KLAYOUT_EXIT_CODE=$KLAYOUT_EXIT_CODE" >> $GITHUB_ENV
 
-      - name: Stop the container and remove it and fail the job if exit code is non-zero
+      - name: Stop the container and remove it 
         run: |
                 podman stop self_hosted_test
                 podman rm self_hosted_test
-                
+
+      - name: Fail the job if exit code is non-zero
+        run: |
                 if [ $KLAYOUT_EXIT_CODE -ne 0 ]; then
                         echo "KLayout exited with non-zero exit code"
                         exit 1
