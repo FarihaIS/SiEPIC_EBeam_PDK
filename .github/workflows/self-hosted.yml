@@ -29,14 +29,9 @@ jobs:
       - name: Copy pymacros folder to podman container
         run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
 
-      - name: Run KLayout Python script inside container 
+      - name: Run KLayout Python script inside container and capture the exit code 
         run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
         continue-on-error: true
-
-        #      - name: Capture exit code from container
-        #        run: |
-        #                KLAYOUT_EXIT_CODE=$?
-        #                echo "KLAYOUT_EXIT_CODE=$KLAYOUT_EXIT_CODE" >> $GITHUB_ENV
 
       - name: Stop the container and remove it 
         run: |
