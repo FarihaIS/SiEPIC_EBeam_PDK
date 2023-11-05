@@ -80,8 +80,8 @@ for i in range(len(library_folders)):
             pcell = new_layout.create_cell(mm, all_params)
                 
             if pcell.is_empty():
-                # if mm != 'phc_test':
-                raise PCellInstantiationError(mm, library_name)
+                if mm != 'phc_test':
+                    raise PCellInstantiationError(mm, library_name)
         
         except (PCellRegistrationError, PCellInstantiationError) as e:
             print("Caught {}: {}".format(type(e).__name__, str(e)))
