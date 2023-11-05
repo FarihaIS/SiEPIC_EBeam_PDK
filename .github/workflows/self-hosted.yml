@@ -34,9 +34,8 @@ jobs:
         continue-on-error: true
 
       - name: Capture exit code from container
-        id: exit-code
         run: |
-                KLAYOUT_EXIT_CODE=$(echo $?)
+                KLAYOUT_EXIT_CODE=$?
                 echo "KLAYOUT_EXIT_CODE=$KLAYOUT_EXIT_CODE" >> $GITHUB_ENV
 
       - name: Stop the container and remove it 
