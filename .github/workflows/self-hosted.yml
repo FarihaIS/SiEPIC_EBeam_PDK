@@ -14,8 +14,15 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Run xhost command
-        run: xhost +local:docker
+      - name: Login to main workstation
+        run: |
+                su - automation1
+                echo pdkgenerator1
+
+      - name: Run xhost commands
+        run: |
+                xhost +local:docker
+                xhost +local:podman
 
       - name: Login to GitHub Container Registry 
         run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
@@ -30,7 +37,7 @@ jobs:
         run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
 
       - name: Run KLayout Python script inside container and capture the exit code 
-        run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
+        run: podman exec self_hosted_test klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Stop the container and remove it 
