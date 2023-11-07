@@ -38,11 +38,6 @@ jobs:
         run: podman exec self_hosted_test klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
         continue-on-error: true
 
-      - name: Stop the container and remove it 
-        run: |
-                podman stop self_hosted_test
-                podman rm self_hosted_test
-
       - name: Fail the job if exit code is non-zero
         run: |
                 if [ $KLAYOUT_EXIT_CODE -ne 0 ]; then
