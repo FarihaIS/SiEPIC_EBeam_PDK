@@ -33,7 +33,7 @@ jobs:
 
       - name: Copy pymacros folder into automation1 account and then into podman container
         run: |
-                echo ${{ secrets.AUTOMATION1_PASS }} | scp -r $GITHUB_WORKSPACE/klayout/EBeam/pymacros automation1@fotonika.ece.ubc.ca:~/pymacros
+                sshpass -p ${{ secrets.AUTOMATION1_PASS }} scp -r $GITHUB_WORKSPACE/klayout/EBeam/pymacros automation1@fotonika.ece.ubc.ca:~/pymacros
                 echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman cp ~/pymacros self_hosted_test:/home/pymacros'
 
       - name: Run KLayout Python script inside container and capture the exit code 
