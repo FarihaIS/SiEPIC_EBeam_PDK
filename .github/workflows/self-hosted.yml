@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to main workstation
-        run: echo "${{ secrets.AUTOMATION1_PASS }}" | su - automation1
+        run: echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1
 
       - name: Run xhost commands
         run: |
