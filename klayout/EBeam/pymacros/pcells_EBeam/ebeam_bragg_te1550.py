@@ -4,6 +4,7 @@ import math
 """
 comment 1
 
+comment 2
 """
 class ebeam_bragg_te1550(pya.PCellDeclarationHelper):
   """
