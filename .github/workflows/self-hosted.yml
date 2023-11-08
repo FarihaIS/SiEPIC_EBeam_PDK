@@ -37,7 +37,9 @@ jobs:
                 echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman cp ~/pymacros self_hosted_test:/home/pymacros'
 
       - name: Run KLayout Python script inside container and capture the exit code 
-        run: echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV'
+        run: |
+                exit_code=$(echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman exec self_hosted_test klayout -z -r pymacros/EBeam_Lib_PCellTests.py; echo $?')
+                echo "KLAYOUT_EXIT_CODE=$exit_code" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Stop the container and remove it 
