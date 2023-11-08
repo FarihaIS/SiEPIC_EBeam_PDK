@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+      - Jasmina-Brar
+      - Fariha
   pull_request:
 
 jobs:
@@ -17,11 +19,11 @@ jobs:
       - name: Login to GitHub Container Registry 
         run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
       
-      - name: Pull fotonika image
+      - name: Pull gha_klayout image
         run: podman pull ghcr.io/farihais/gha_klayout:latest
 
       - name: Run podman container from image
-        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00
+        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/farihais/gha_klayout:latest
 
       - name: Copy pymacros folder to podman container
         run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
