@@ -29,7 +29,9 @@ jobs:
         run: echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman pull ghcr.io/siepic/fotonika-env:0.01.00'
 
       - name: Run podman container from image
-        run: echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00'
+        run: |
+                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00'
+                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman start self_hosted_test'
 
       - name: Copy pymacros folder into automation1 account and then into podman container
         run: |
