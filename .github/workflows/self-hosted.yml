@@ -14,41 +14,29 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Login to main workstation
-        run: echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1
-
-      - name: Run xhost commands
-        run: |
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'xhost +local:docker'
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'xhost +local:podman'
+      - name: Run xhost command
+        run: xhost +local:docker
 
       - name: Login to GitHub Container Registry 
-        run: echo ${{ secrets.AUTOMATION1_PASS }}  | su - automation1 -c 'echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin'
+        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
       
       - name: Pull fotonika image
-        run: echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman pull ghcr.io/siepic/fotonika-env:0.01.00'
+        run: podman pull ghcr.io/siepic/fotonika-env:0.01.00
 
       - name: Run podman container from image
-        run: |
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00'
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman start self_hosted_test'
+        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00
 
-      - name: Copy pymacros folder into automation1 account and then into podman container
-        run: |
-                sshpass -p ${{ secrets.AUTOMATION1_PASS }} scp -r $GITHUB_WORKSPACE/klayout/EBeam/pymacros automation1@fotonika.ece.ubc.ca:~/pymacros
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman cp ~/pymacros self_hosted_test:/home/pymacros'
+      - name: Copy pymacros folder to podman container
+        run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
 
       - name: Run KLayout Python script inside container and capture the exit code 
-        run: |
-                exit_code=$(echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman exec self_hosted_test klayout -z -r pymacros/EBeam_Lib_PCellTests.py; echo $?')
-                echo "KLAYOUT_EXIT_CODE=$exit_code" >> $GITHUB_ENV
+        run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Stop the container and remove it 
         run: |
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman stop self_hosted_test'
-                echo ${{ secrets.AUTOMATION1_PASS }} | su - automation1 -c 'podman rm self_hosted_test'
-
+                podman stop self_hosted_test
+                podman rm self_hosted_test
       - name: Fail the job if exit code is non-zero
         run: |
                 if [ $KLAYOUT_EXIT_CODE -ne 0 ]; then
