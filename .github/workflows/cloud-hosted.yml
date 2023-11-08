@@ -1,4 +1,4 @@
-name: GitHub-Hosted PCellTests
+name: Cloud-Hosted PCellTests
 
 on:
   push:
@@ -15,25 +15,25 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to GitHub Container Registry 
-        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u farihais --password-stdin
+        run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
+      
+      - name: Pull fotonika image
+        run: podman pull ghcr.io/farihais/gha_klayout:latest
 
-      - name: Pull docker image 
-        run: docker pull ghcr.io/farihais/gha_klayout:latest
+      - name: Run podman container from image
+        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/siepic/fotonika-env:0.01.00
 
-      - name: Run docker container from image
-        run: docker run -itd --name test ghcr.io/farihais/gha_klayout:latest
-
-      - name: Copy pymacros folder to docker container
-        run: docker cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros test:/home/pymacros
+      - name: Copy pymacros folder to podman container
+        run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
 
       - name: Run KLayout Python script inside container and capture the exit code 
-        run: docker exec test /klayout-0.28.12/bin-release/klayout -zz -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
+        run: podman exec self_hosted_test /klayout-0.28.12/bin-release/klayout -z -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Stop the container and remove it 
         run: |
-                docker stop self_hosted_test
-                docker rm self_hosted_test
+                podman stop self_hosted_test
+                podman rm self_hosted_test
 
       - name: Fail the job if exit code is non-zero
         run: |
