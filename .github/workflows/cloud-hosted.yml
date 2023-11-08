@@ -14,24 +14,11 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
 
+      - name: Run xhost command
+        run: xhost +local:docker
+
       - name: Login to GitHub Container Registry 
         run: echo ${{ secrets.CR_PAT }} | podman login ghcr.io -u farihais --password-stdin
-
-
-      name: PCell Tests
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  pcell-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v3
 
       - name: Pull docker image 
         run: docker pull ghcr.io/farihais/gha_klayout:latest
