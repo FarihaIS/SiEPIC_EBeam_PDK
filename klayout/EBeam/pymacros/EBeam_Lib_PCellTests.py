@@ -48,7 +48,7 @@ for i in range(len(library_folders)):
         library = pya.Library().library_by_name(library_name,tech_name)
         layout = library.layout()
 
-    except Error as e:
+    except AttributeError as e:
         print("Error {}. Library {}".format(str(e), library_name))
         
 
