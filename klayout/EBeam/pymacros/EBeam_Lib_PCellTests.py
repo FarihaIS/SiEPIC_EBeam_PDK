@@ -42,10 +42,15 @@ for i in range(len(library_folders)):
     importlib.invalidate_caches()
 
     # get library layout object 
-    tech_name = tech_names[i]
-    library_name = library_names[i]
-    library = pya.Library().library_by_name(library_name,tech_name)
-    layout = library.layout()
+    try:
+        tech_name = tech_names[i]
+        library_name = library_names[i]
+        library = pya.Library().library_by_name(library_name,tech_name)
+        layout = library.layout()
+
+    except Error as e:
+        print("Error {}. Library {}".format(str(e), library_name))
+        
 
     # check that the library is registered in klayout
     try:
