@@ -42,11 +42,15 @@ for i in range(len(library_folders)):
     importlib.invalidate_caches()
 
     # get library layout object 
-    try:
-        tech_name = tech_names[i]
-        library_name = library_names[i]
-        library = pya.Library().library_by_name(library_name,tech_name)
-        layout = library.layout()
+    tech_name = tech_names[i]
+    library_name = library_names[i]
+    library = pya.Library().library_by_name(library_name,tech_name)
+
+    # With self hosted runner, EBeam library is not being initialized, skip over it
+    if library == None:
+        break;
+        
+    layout = library.layout()
 
     except AttributeError as e:
         print("Error {}. Library {}".format(str(e), library_name))
