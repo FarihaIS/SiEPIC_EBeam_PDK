@@ -23,19 +23,19 @@ jobs:
         run: podman pull ghcr.io/farihais/gha_klayout:latest
 
       - name: Run podman container from image
-        run: podman run -itd --name self_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/farihais/gha_klayout:latest
+        run: podman run -itd --name cloud_hosted_test -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --security-opt label=type:container_runtime_t ghcr.io/farihais/gha_klayout:latest
 
       - name: Copy pymacros folder to podman container
-        run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros self_hosted_test:/home/pymacros
+        run: podman cp $GITHUB_WORKSPACE/klayout/EBeam/pymacros cloud_hosted_test:/home/pymacros
 
       - name: Run KLayout Python script inside container and capture the exit code 
-        run: podman exec self_hosted_test klayout -zz -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
+        run: podman exec cloud_hosted_test klayout -zz -r pymacros/EBeam_Lib_PCellTests.py || echo "KLAYOUT_EXIT_CODE=$?" >> $GITHUB_ENV
         continue-on-error: true
 
       - name: Stop the container and remove it 
         run: |
-                podman stop self_hosted_test
-                podman rm self_hosted_test
+                podman stop cloud_hosted_test
+                podman rm cloud_hosted_test
 
       - name: Fail the job if exit code is non-zero
         run: |
