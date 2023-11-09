@@ -52,10 +52,6 @@ for i in range(len(library_folders)):
         
     layout = library.layout()
 
-    except AttributeError as e:
-        print("Error {}. Library {}".format(str(e), library_name))
-        
-
     # check that the library is registered in klayout
     try:
         if layout == None:
