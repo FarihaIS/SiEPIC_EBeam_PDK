@@ -1,11 +1,10 @@
 name: Self-Hosted PCellTests
 
 on:
-  push:
+ pull_request:
     branches:
       - master
-  pull_request:
-
+  
 jobs:
   pcell-tests:
     runs-on: self-hosted 
